@@ -9,22 +9,24 @@ HOME=/home/container
 
 # Get all other Docker Variables
 GIT_DETAILS=$(eval echo "$GIT_DETAILS") #https://user:passwd@url
-GIT_BRANCHES_ALL=$(eval echo "$GIT_BRANCHES") #branch1,branch2,...
-GIT_BRANCHES=$( cut -d ',' -f 2- <<< "$GIT_BRANCHES_ALL" ) 	#branch2,...
-GIT_BASE_BRANCH=$( cut -d ',' -f 1- <<< "$GIT_BRANCHES_ALL" ) #branch1
 
-if [ ! -d ".git" ]; then
-	git clone "$GIT_DETAILS" "$GIT_BASE_BRANCH" . -q
-else
-	git fetch origin
-	git reset --hard
+if [ ! -z "$GIT_DETAILS" ]; then
+	GIT_BRANCHES_ALL=$(eval echo "$GIT_BRANCHES") #branch1,branch2,...
+	GIT_BRANCHES=$( cut -d ',' -f 2- <<< "$GIT_BRANCHES_ALL" ) 	#branch2,...
+	GIT_BASE_BRANCH=$( cut -d ',' -f 1- <<< "$GIT_BRANCHES_ALL" ) #branch1
+
+	if [ ! -d ".git" ]; then
+		git clone "$GIT_DETAILS" "$GIT_BASE_BRANCH" . -q
+	else
+		git fetch origin
+		git reset --hard
+	fi
+
+	IFS=',' read -ra ADDR <<< "$GIT_BRANCHES"
+	for i in "${ADDR[@]}"; do
+		git merge origin/"$i" --allow-unrelated-histories
+	done
 fi
-
-IFS=',' read -ra ADDR <<< "$GIT_BRANCHES"
-for i in "${ADDR[@]}"; do
-	git merge origin/"$i" --allow-unrelated-histories
-done
-
 
 cd "$HOME" || exit
 
