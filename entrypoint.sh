@@ -10,13 +10,23 @@ HOME=/home/container
 # Get all other Docker Variables
 GIT_DETAILS=$(eval echo "$GIT_DETAILS") #https://user:passwd@url
 
+
 if [ ! -z "$GIT_DETAILS" ]; then
 	GIT_BRANCHES_ALL=$(eval echo "$GIT_BRANCHES") #branch1,branch2,...
 	GIT_BRANCHES=$( cut -d ',' -f 2- <<< "$GIT_BRANCHES_ALL" ) 	#branch2,...
-	GIT_BASE_BRANCH=$( cut -d ',' -f 1- <<< "$GIT_BRANCHES_ALL" ) #branch1
+	GIT_BASE_BRANCH=$( cut -d ',' -f 1 <<< "$GIT_BRANCHES_ALL" ) #branch1
+
+    cd "$HOME"/garrysmod || exit
 
 	if [ ! -d ".git" ]; then
-		git clone "$GIT_DETAILS" "$GIT_BASE_BRANCH" . -q
+	    git config --global user.email "egg@nest.com"
+        git config --global user.name "Egg"
+
+        git init
+        git remote add origin "$GIT_DETAILS"
+        git fetch --all -q
+        git reset --hard -q # this is required if files in the non-empty directory are in the repo
+        git checkout -t origin/"$GIT_BASE_BRANCH" -b origin/"$GIT_BASE_BRANCH" -f
 	else
 		git fetch origin
 		git reset --hard
@@ -24,7 +34,7 @@ if [ ! -z "$GIT_DETAILS" ]; then
 
 	IFS=',' read -ra ADDR <<< "$GIT_BRANCHES"
 	for i in "${ADDR[@]}"; do
-		git merge origin/"$i" --allow-unrelated-histories
+		git merge origin/"$i" --commit --no-edit
 	done
 fi
 
