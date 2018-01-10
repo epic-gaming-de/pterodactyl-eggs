@@ -25,6 +25,7 @@ for i in "${SYMLINKS_LIST[@]}"; do
 	
 	if [[ ! ${SYMLINK_PARTS[0]} == "shared"* ]]; then
 		if [[ ! ${SYMLINK_PARTS[0]} == "/shared"* ]]; then
+			install -D . ${SYMLINK_PARTS[0]}
 			rm -rf ${SYMLINK_PARTS[0]}
 			ln -s ${SYMLINK_PARTS[1]} ${SYMLINK_PARTS[0]} 
 		fi
@@ -45,14 +46,14 @@ if [ ! -z "$GIT_DETAILS" ]; then
         git init
         git remote add origin "$GIT_DETAILS"
         git fetch --all -q
-        git reset --hard -q # this is required if files in the non-empty directory are in the repo
+        git reset --hard -q
         git checkout -t origin/"$GIT_BASE_BRANCH" -b origin/"$GIT_BASE_BRANCH" -f
 	else
 		git fetch origin
 		git reset --hard
 	fi
 
-	IFS=',' read -ra ADDR <<< "$GIT_BRANCHES"
+	IFS=',' read -ra ADDR <<< "$GIT_BRANCHES_ALL"
 	for i in "${ADDR[@]}"; do
 		git merge origin/"$i" --commit --no-edit
 	done
