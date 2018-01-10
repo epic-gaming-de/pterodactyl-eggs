@@ -45,7 +45,7 @@ if [ ! -z "$GIT_DETAILS" ]; then
 
         git init
         git remote add origin "$GIT_DETAILS"
-        git fetch --all -q
+        git fetch -q
         git reset --hard -q
         git checkout -t origin/"$GIT_BASE_BRANCH" -b origin/"$GIT_BASE_BRANCH" -f
 	else
