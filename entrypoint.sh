@@ -18,9 +18,9 @@ for i in "${SYMLINKS_LIST[@]}"; do
 	IFS=':' read -ra SYMLINK_PARTS <<< "$i"
 	
 	if [[ ! "$i[0]" == "shared"* ]]; then
-		if [[ ! ${$i[0]} == "/shared"* ]]; then
-			rm -rf ${$i[0]}
-			ln -s ${$i[0]} ${$i[1]}
+		if [[ ! "${$i[0]}" == "/shared"* ]]; then
+			rm -rf "${$i[0]}"
+			ln -s "${$i[0]}" "${$i[1]}"
 		fi
 	fi
 done
