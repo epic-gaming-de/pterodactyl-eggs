@@ -9,7 +9,19 @@ HOME=/home/container
 
 # Get all other Docker Variables
 GIT_DETAILS=$(eval echo "$GIT_DETAILS") #https://user:passwd@url
+SYMLINKS=$(eval echo "$SYMLINKS") #/linkpath/from/:/shared/linkpath/to,...
 
+IFS=',' read -ra SYMLINKS_LIST <<< "$SYMLINKS"
+for i in "${SYMLINKS_LIST[@]}"; do
+	IFS=':' read -ra SYMLINK_PARTS <<< "$i"
+	
+	if [[ ! "$i[0]" == *"shared"* ]]; then
+		if [[ ! "$i[0]" == *"/shared"* ]]; then
+			rm -rf "$i[0]"
+			ls -s "$i[0]" "$i[1]"
+		fi
+	fi
+done
 
 if [ ! -z "$GIT_DETAILS" ]; then
 	GIT_BRANCHES_ALL=$(eval echo "$GIT_BRANCHES") #branch1,branch2,...
