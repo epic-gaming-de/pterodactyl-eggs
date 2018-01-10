@@ -10,17 +10,23 @@ HOME=/home/container
 # Get all other Docker Variables
 GIT_DETAILS=$(eval echo "$GIT_DETAILS") #https://user:passwd@url
 SYMLINKS=$(eval echo "$SYMLINKS") #/linkpath/from/:/shared/linkpath/to,...
+TODELETE=$(eval echo "$TODELETE") #file1,file2
 
 cd "$HOME" || exit
+
+IFS=',' read -ra FILESTODELETE <<< "$TODELETE"
+for i in "${FILESTODELETE[@]}"; do
+	rm -rf "$i"
+done
 
 IFS=',' read -ra SYMLINKS_LIST <<< "$SYMLINKS"
 for i in "${SYMLINKS_LIST[@]}"; do
 	IFS=':' read -ra SYMLINK_PARTS <<< "$i"
 	
-	if [[ ! "$i[0]" == "shared"* ]]; then
-		if [[ ! "${$i[0]}" == "/shared"* ]]; then
-			rm -rf "${$i[0]}"
-			ln -s "${$i[0]}" "${$i[1]}"
+	if [[ ! "$SYMLINK_PARTS[0]" == "shared"* ]]; then
+		if [[ ! "${$SYMLINK_PARTS[0]}" == "/shared"* ]]; then
+			rm -rf "${$SYMLINK_PARTS[0]}"
+			ln -s "${$SYMLINK_PARTS[0]}" "${$SYMLINK_PARTS[1]}"
 		fi
 	fi
 done
