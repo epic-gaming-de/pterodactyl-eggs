@@ -11,6 +11,8 @@ HOME=/home/container
 GIT_DETAILS=$(eval echo "$GIT_DETAILS") #https://user:passwd@url
 SYMLINKS=$(eval echo "$SYMLINKS") #/linkpath/from/:/shared/linkpath/to,...
 
+cd "$HOME" || exit
+
 IFS=',' read -ra SYMLINKS_LIST <<< "$SYMLINKS"
 for i in "${SYMLINKS_LIST[@]}"; do
 	IFS=':' read -ra SYMLINK_PARTS <<< "$i"
