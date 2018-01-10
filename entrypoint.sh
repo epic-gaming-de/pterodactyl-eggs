@@ -33,9 +33,8 @@ for i in "${SYMLINKS_LIST[@]}"; do
 done
 
 if [ ! -z "$GIT_DETAILS" ]; then
-	GIT_BRANCHES_ALL=$(eval echo "$GIT_BRANCHES") #branch1,branch2,...
-	GIT_BRANCHES=$( cut -d ',' -f 2- <<< "$GIT_BRANCHES_ALL" ) 	#branch2,...
-	GIT_BASE_BRANCH=$( cut -d ',' -f 1 <<< "$GIT_BRANCHES_ALL" ) #branch1
+	GIT_BRANCHES=$(eval echo "$GIT_BRANCHES") #branch1,branch2,...
+	GIT_BASE_BRANCH=$( cut -d ',' -f 1 <<< "$GIT_BRANCHES" ) #branch1
 
     cd "$HOME"/garrysmod || exit
 
@@ -50,10 +49,10 @@ if [ ! -z "$GIT_DETAILS" ]; then
         git checkout -t origin/"$GIT_BASE_BRANCH" -b origin/"$GIT_BASE_BRANCH" -f
 	else
 		git fetch origin
-		git reset --hard
+		git reset --hard origin/"$i"
 	fi
 
-	IFS=',' read -ra ADDR <<< "$GIT_BRANCHES_ALL"
+	IFS=',' read -ra ADDR <<< "$GIT_BRANCHES"
 	for i in "${ADDR[@]}"; do
 		git merge origin/"$i" --commit --no-edit
 	done
