@@ -48,8 +48,8 @@ if [ ! -z "$GIT_DETAILS" ]; then
         git reset --hard -q
         git checkout -t origin/"$GIT_BASE_BRANCH" -b origin/"$GIT_BASE_BRANCH" -f
 	else
-		git fetch --all
-		git reset --hard origin/"$GIT_BASE_BRANCH"
+		git fetch
+		git reset --hard
 		#git rebase remotes/origin/"$GIT_BASE_BRANCH" -f
 	fi
 
