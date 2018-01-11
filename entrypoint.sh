@@ -25,7 +25,7 @@ for i in "${SYMLINKS_LIST[@]}"; do
 	
 	if [[ ! ${SYMLINK_PARTS[0]} == "shared"* ]]; then
 		if [[ ! ${SYMLINK_PARTS[0]} == "/shared"* ]]; then
-			install -D . ${SYMLINK_PARTS[0]}
+			install -D . ${SYMLINK_PARTS[0]} > /dev/null
 			rm -rf ${SYMLINK_PARTS[0]}
 			ln -s ${SYMLINK_PARTS[1]} ${SYMLINK_PARTS[0]} 
 		fi
@@ -46,16 +46,15 @@ if [ ! -z "$GIT_DETAILS" ]; then
         git remote add origin "$GIT_DETAILS"
         git fetch --all -q
         git reset --hard -q
-        git checkout -t origin/"$GIT_BASE_BRANCH" -b origin/"$GIT_BASE_BRANCH" -f
+        git checkout -t origin/"$GIT_BASE_BRANCH" -b origin/"$GIT_BASE_BRANCH" -f -q
 	else
-		git fetch
-		git reset --hard
-		#git rebase remotes/origin/"$GIT_BASE_BRANCH" -f
+		git fetch -q
+		git reset --hard -q
 	fi
 
 	IFS=',' read -ra ADDR <<< "$GIT_BRANCHES"
 	for i in "${ADDR[@]}"; do
-		git merge origin/"$i" --commit --no-edit
+		git merge origin/"$i" --commit --no-edit -q
 	done
 fi
 
