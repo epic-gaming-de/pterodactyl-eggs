@@ -34,7 +34,7 @@ done
 
 if [ ! -z "$GIT_DETAILS" ]; then
 	GIT_BRANCHES=$(eval echo "$GIT_BRANCHES") #branch1,branch2,...
-	GIT_BASE_BRANCH=$( cut -d ',' -f 1 <<< "$GIT_BRANCHES" ) #branch1
+	#GIT_BASE_BRANCH=$( cut -d ',' -f 1 <<< "$GIT_BRANCHES" ) #branch1
 
     cd "$HOME"/garrysmod || exit
 
@@ -46,7 +46,7 @@ if [ ! -z "$GIT_DETAILS" ]; then
         git remote add origin "$GIT_DETAILS"
         git fetch --all -q
         git reset --hard -q
-        git checkout -t origin/"$GIT_BASE_BRANCH" -b origin/"$GIT_BASE_BRANCH" -f -q
+        git checkout -t --orphan gitfiles_merged
 	else
 		git fetch -q
 		git reset --hard -q
