@@ -44,12 +44,13 @@ if [ ! -z "$GIT_DETAILS" ]; then
 
         git init
         git remote add origin "$GIT_DETAILS"
-        git fetch -q
+        git fetch --all -q
         git reset --hard -q
         git checkout -t origin/"$GIT_BASE_BRANCH" -b origin/"$GIT_BASE_BRANCH" -f
 	else
-		git fetch origin
-		git reset --hard origin/"$i"
+		git fetch --all
+		git reset --hard origin/"$GIT_BASE_BRANCH"
+		#git rebase remotes/origin/"$GIT_BASE_BRANCH" -f
 	fi
 
 	IFS=',' read -ra ADDR <<< "$GIT_BRANCHES"
