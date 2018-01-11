@@ -47,6 +47,7 @@ if [ ! -z "$GIT_DETAILS" ]; then
         git fetch --all -q
         git reset --hard -q
         git checkout -t --orphan gitfiles_merged
+		git reset --hard -q
 	else
 		git fetch -q
 		git reset --hard -q
