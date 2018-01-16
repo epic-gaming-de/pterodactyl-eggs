@@ -59,6 +59,10 @@ if [ ! -z "$GIT_DETAILS" ]; then
 	done
 fi
 
+cd /shared/gmod/resource_syncer/ || exit
+
+dotnet GmodResourceSync.dll "$HOME/garrysmod" "/shared/fastdl" "7z"
+
 cd "$HOME" || exit
 
 # Make internal Docker IP address available to processes.
