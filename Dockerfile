@@ -1,6 +1,6 @@
 # ----------------------------------
 # Pterodactyl Core Dockerfile
-# Environment: Source Engine
+# Environment: Source Engine 
 # Minimum Panel Version: 0.6.0
 # ----------------------------------
 FROM        ubuntu:16.04
