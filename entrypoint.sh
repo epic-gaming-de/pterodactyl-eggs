@@ -50,7 +50,7 @@ if [ ! -z "$GIT_DETAILS" ]; then
 		git fetch -q
 	fi
 	
-	GIT_BRANCHNAME="$GIT_BRANCHES" | tr "," "-"
+	GIT_BRANCHNAME=$(eval echo "$GIT_BRANCHES" | tr "," "-")
 	
 	git checkout --orphan "$GIT_BRANCHNAME"
 	git reset --hard -q
