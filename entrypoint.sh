@@ -5,7 +5,7 @@ sleep 2
 SRCDS_APPID=$(eval echo "$SRCDS_APPID")
 HOME=/home/container
 
-"$HOME"/steamcmd/steamcmd.sh +login anonymous +force_install_dir "$HOME" +app_update "$SRCDS_APPID" +quit
+"$HOME"/steamcmd/steamcmd.sh +login anonymous +force_install_dir "$HOME" +app_update 4020 +quit
 
 # Get all other Docker Variables
 GIT_DETAILS=$(eval echo "$GIT_DETAILS") #https://user:passwd@url
