@@ -20,7 +20,7 @@ for i in "${SYMLINKS_LIST[@]}"; do
 	
 	if [[ ! ${SYMLINK_PARTS[0]} == "shared"* ]]; then
 		if [[ ! ${SYMLINK_PARTS[0]} == "/shared"* ]]; then
-			install -D . ${SYMLINK_PARTS[0]} > /dev/null
+			mkdir -p ${SYMLINK_PARTS[0]}
 			rm -rf ${SYMLINK_PARTS[0]}
 			ln -s ${SYMLINK_PARTS[1]} ${SYMLINK_PARTS[0]} 
 		fi
