@@ -14,11 +14,6 @@ TODELETE=$(eval echo "$TODELETE") #file1,file2
 
 cd "$HOME" || exit
 
-IFS=',' read -ra FILESTODELETE <<< "$TODELETE"
-for i in "${FILESTODELETE[@]}"; do
-	rm -rf "$i"
-done
-
 IFS=',' read -ra SYMLINKS_LIST <<< "$SYMLINKS"
 for i in "${SYMLINKS_LIST[@]}"; do
 	IFS=':' read -ra SYMLINK_PARTS <<< "$i"
@@ -60,6 +55,11 @@ if [ ! -z "$GIT_DETAILS" ]; then
 		git merge origin/"$i" --commit --no-edit -q
 	done
 fi
+
+IFS=',' read -ra FILESTODELETE <<< "$TODELETE"
+for i in "${FILESTODELETE[@]}"; do
+	rm -rf "$i"
+done
 
 cd /shared/gmod/resource_syncer/ || exit
 
