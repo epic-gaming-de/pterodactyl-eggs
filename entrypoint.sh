@@ -20,7 +20,10 @@ for i in "${SYMLINKS_LIST[@]}"; do
 	
 	if [[ ! ${SYMLINK_PARTS[0]} == "shared"* ]]; then
 		if [[ ! ${SYMLINK_PARTS[0]} == "/shared"* ]]; then
-			mkdir -p ${SYMLINK_PARTS[0]}
+			if [[ ! -e ${SYMLINK_PARTS[0]} ]] ; then
+				mkdir -p ${SYMLINK_PARTS[0]}
+			fi
+			
 			rm -rf ${SYMLINK_PARTS[0]}
 			ln -s ${SYMLINK_PARTS[1]} ${SYMLINK_PARTS[0]} 
 		fi
