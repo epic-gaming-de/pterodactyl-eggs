@@ -47,11 +47,14 @@ if [ ! -z "$GIT_DETAILS" ]; then
 	else
 		git fetch -q
 	fi
+
+	git submodule update --init --recursive
 	
 	GIT_BRANCHNAME=$(eval echo "$GIT_BRANCHES" | tr "," "-")
 	
 	git checkout --orphan "$GIT_BRANCHNAME"
 	git reset --hard -q
+	git submodule foreach git reset --hard -q
 
 	IFS=',' read -ra ADDR <<< "$GIT_BRANCHES"
 	for i in "${ADDR[@]}"; do
