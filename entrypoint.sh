@@ -51,6 +51,7 @@ if [ ! -z "$GIT_DETAILS" ]; then
 	git submodule update --init --recursive
 	
 	GIT_BRANCHNAME=$(eval echo "$GIT_BRANCHES" | tr "," "-")
+	GIT_BRANCHNAME="${GIT_BRANCHNAME}-deploy"
 	
 	git checkout --orphan "$GIT_BRANCHNAME"
 	git reset --hard -q

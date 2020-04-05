@@ -1,11 +1,10 @@
 # ----------------------------------
-# Pterodactyl Core Dockerfile
+# Pterodactyl Epic-Gaming GMOD Dockerfile
 # Environment: Source Engine 
-# Minimum Panel Version: 0.6.0
 # ----------------------------------
 FROM        ubuntu:16.04
 
-MAINTAINER  Pterodactyl Software, <support@pterodactyl.io>
+MAINTAINER  Jakob Mueller <contact@epic-gaming.de>
 ENV         DEBIAN_FRONTEND noninteractive
 # Install Dependencies
 RUN         dpkg --add-architecture i386 \
@@ -18,6 +17,10 @@ RUN			echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubun
 			&& curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg \
 			&& apt -y update \
 			&& apt -y install dotnet-runtime-2.0.5
+
+
+RUN groupadd -g 998 pterodactyl
+RUN useradd -m -u 999 -g 998 -s /bin/bash pterodactyl
 
 USER        container
 ENV         HOME /home/container
