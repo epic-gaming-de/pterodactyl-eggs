@@ -49,6 +49,7 @@ if [ ! -z "$GIT_DETAILS" ]; then
 	fi
 
 	git submodule update --init --recursive
+	git submodule foreach git pull origin master
 	
 	GIT_BRANCHNAME=$(eval echo "$GIT_BRANCHES" | tr "," "-")
 	GIT_BRANCHNAME="${GIT_BRANCHNAME}-deploy"
