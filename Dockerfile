@@ -22,9 +22,9 @@ RUN			echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubun
 RUN groupadd -g 998 pterodactyl
 RUN useradd -m -u 999 -g 998 -s /bin/bash pterodactyl
 
-USER        container
-ENV         HOME /home/container
-WORKDIR     /home/container
+USER        pterodactyl
+ENV         HOME /home/pterodactyl
+WORKDIR     /home/pterodactyl
 
 COPY        ./entrypoint.sh /entrypoint.sh
 CMD         ["/bin/bash", "/entrypoint.sh"]

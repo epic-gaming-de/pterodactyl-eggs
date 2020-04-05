@@ -3,7 +3,7 @@ sleep 2
 
 # Get Docker Variables
 SRCDS_APPID=$(eval echo "$SRCDS_APPID")
-HOME=/home/container
+HOME=/home/pterodactyl
 
 "$HOME"/steamcmd/steamcmd.sh +login anonymous +force_install_dir "$HOME" +app_update 4020 +quit
 
